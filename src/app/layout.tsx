@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import "@assets/scss/style.scss";
 import QueryClientProvider from "@/context/QueryClientProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import SessionProvider from "@/context/SessionProvider";
 
 export const metadata: Metadata = {
   title: "판다마켓",
