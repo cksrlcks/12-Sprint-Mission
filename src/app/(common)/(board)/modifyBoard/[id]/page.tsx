@@ -1,14 +1,14 @@
 "use client";
 
 import { notFound, redirect, useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/context/SessionProvider";
 import { useArticleModify, useGetArticle } from "@/service/article.queries";
 import { PageWrapper } from "@/components/Page";
 import { Loading } from "@/components/ui";
 import ArticleForm from "@/components/board/ArticleForm";
 
 export default function ModifyBoardPage() {
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const { id } = useParams<{ id: string }>();
   const articleId = Number(id);
 

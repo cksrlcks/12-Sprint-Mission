@@ -1,14 +1,14 @@
 "use client";
 
 import { notFound, redirect, useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/context/SessionProvider";
 import { useGetProduct, useProductModify } from "@/service/product.queries";
 import { PageWrapper } from "@/components/Page";
 import { Loading } from "@/components/ui";
 import ProductForm from "@/components/market/ProductForm";
 
 export default function ModifyItemPage() {
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const { id } = useParams<{ id: string }>();
   const productId = Number(id);
 
@@ -23,7 +23,7 @@ export default function ModifyItemPage() {
     notFound();
   }
 
-  const isOwner = detail.ownerId === Number(session?.user.id);
+  const isOwner = detail.ownerId === Number(session?.user?.id);
   if (!isOwner) {
     redirect("/items");
   }

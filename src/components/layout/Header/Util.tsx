@@ -3,12 +3,12 @@
 import { Button } from "@components/ui";
 import { Profile } from "@/components/layout/Header";
 import styles from "./Util.module.scss";
-import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserOptions } from "@/service/user.queries";
+import { useAuth } from "@/context/SessionProvider";
 
 export function Util() {
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const { data } = useQuery({
     ...getUserOptions,
     enabled: !!session,

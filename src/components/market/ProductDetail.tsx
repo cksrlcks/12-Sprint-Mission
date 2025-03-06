@@ -18,12 +18,12 @@ import {
   useProductDelete,
   useProductToggleLike,
 } from "@/service/product.queries";
-import { useSession } from "next-auth/react";
 import { Loading } from "@/components/ui/Loading";
+import { useAuth } from "@/context/SessionProvider";
 
 export default function ProductDetail() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const { id } = useParams<{ id: string }>();
   const productId = Number(id);
 

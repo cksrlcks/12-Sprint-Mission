@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { notFound, useParams, useRouter } from "next/navigation";
 import { More } from "@/components/Button";
 import { Author, Fullscreen, LikeButton, Thumbnail } from "@/components/ui";
@@ -11,10 +10,11 @@ import {
   useGetArticle,
 } from "@/service/article.queries";
 import { Loading } from "@/components/ui/Loading";
+import { useAuth } from "@/context/SessionProvider";
 
 export default function BoardDetail() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const { id } = useParams<{ id: string }>();
   const articleId = Number(id);
 

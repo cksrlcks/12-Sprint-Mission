@@ -7,7 +7,7 @@ import { CommentForm } from ".";
 import styles from "./Comment.module.scss";
 import { BoardName, Comment as CommentItem } from "@/service/comment.type";
 import { useCommentDelete, useCommentModify } from "@/service/comment.queries";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/context/SessionProvider";
 
 interface Comment {
   name: BoardName;
@@ -16,7 +16,7 @@ interface Comment {
 
 export function Comment({ name, comment }: Comment) {
   const [isModify, setIsModify] = useState(false);
-  const { data: session } = useSession();
+  const { session } = useAuth();
 
   const {
     id: commentId,
