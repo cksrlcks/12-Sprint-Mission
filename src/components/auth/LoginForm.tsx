@@ -25,8 +25,8 @@ export default function LoginForm() {
 
   async function onSubmit(data: SigninFormType) {
     const response = await loginAction(data);
+
     if (response.success) {
-      alert(response.message);
       window.location.reload();
     } else {
       throw new Error(response.message);

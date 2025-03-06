@@ -11,8 +11,6 @@ type AuthActionResult = {
   message: string;
 };
 
-const ACCESS_TOKEN_EXPIRE = 60 * 60; // 60분 (테스트용으로 짧게)
-
 export async function loginAction(
   formData: SigninFormType
 ): Promise<AuthActionResult> {
@@ -26,14 +24,13 @@ export async function loginAction(
   }
 
   try {
-    const { accessToken, refreshToken, user } = await login(formData);
+    const { accessToken, refreshToken, user } = await login(result.data);
     const cookieStore = await cookies();
 
     cookieStore.set("accessToken", accessToken, {
       httpOnly: true,
       sameSite: "lax",
       path: "/",
-      maxAge: ACCESS_TOKEN_EXPIRE,
     });
 
     cookieStore.set("refreshToken", refreshToken, {
