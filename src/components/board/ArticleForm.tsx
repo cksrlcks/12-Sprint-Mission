@@ -15,7 +15,7 @@ import { Article } from "@/service/article.type";
 import { FieldAdapter } from "@components/adaptor/rhf";
 import { useRouter } from "next/navigation";
 import { ArticleFormSchema, ArticleFormType } from "@/service/article.schema";
-import { isAxiosError } from "axios";
+import { handleError } from "@/util/error";
 
 interface ArticleAddFormProps {
   mode: "add";
@@ -58,11 +58,7 @@ export default function ArticleForm(props: ArticleFormProps) {
       );
       router.replace(id ? `/boards/${id}` : "boards");
     } catch (error) {
-      throw new Error(
-        isAxiosError(error)
-          ? error.response?.data.message
-          : "알 수 없는 에러가 발생했습니다."
-      );
+      throw new Error(handleError(error));
     }
   }
 

@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signupFormSchema, SignupFormType } from "@/service/auth.schema";
 import { FieldAdapter } from "@components/adaptor/rhf";
 import { signUp } from "@/service/auth.service";
-import { isAxiosError } from "axios";
+import { handleError } from "@/util/error";
 
 export default function SignupForm() {
   const {
@@ -34,11 +34,7 @@ export default function SignupForm() {
       alert("가입에 성공했습니다. 로그인을 해주세요");
       router.replace("/login");
     } catch (error) {
-      const message = isAxiosError(error)
-        ? error.response?.data.message
-        : "알 수 없는 에러가 발생했어요.";
-
-      throw new Error(message);
+      throw new Error(handleError(error));
     }
   }
 

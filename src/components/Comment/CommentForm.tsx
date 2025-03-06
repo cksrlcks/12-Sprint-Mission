@@ -9,7 +9,7 @@ import { CommentFormSchema, CommentFormType } from "@/service/comment.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldAdapter } from "@components/adaptor/rhf";
 import { COMMENT_PLACEHOLDER, COMMENT_TITLE } from "@/constants/message";
-import { isAxiosError } from "axios";
+import { handleError } from "@/util/error";
 
 interface CommentForm {
   name: BoardName;
@@ -53,11 +53,7 @@ export function CommentForm({
       });
       onClose?.();
     } catch (error) {
-      throw new Error(
-        isAxiosError(error)
-          ? error.response?.data.message
-          : "알 수 없는 에러가 발생했습니다."
-      );
+      throw new Error(handleError(error));
     }
   }
 

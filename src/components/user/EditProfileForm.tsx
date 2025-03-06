@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import FormControl from "./FormControl";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getUserOptions, useUpdateUser } from "@/service/user.queries";
-import { isAxiosError } from "axios";
+import { handleError } from "@/util/error";
 
 export default function EditProfileForm() {
   const {
@@ -64,11 +64,7 @@ export default function EditProfileForm() {
       await updateUser(data);
       router.replace("/mypage");
     } catch (error) {
-      throw new Error(
-        isAxiosError(error)
-          ? error.response?.data.message
-          : "알 수 없는 에러가 발생했습니다."
-      );
+      throw new Error(handleError(error));
     }
   }
 
