@@ -22,10 +22,8 @@ export default function BestList() {
   }
 
   return (
-    <>
-      <BoardListWrapper mode="best" items={list}>
-        {(item) => <BestItem data={item} />}
-      </BoardListWrapper>
-    </>
+    <BoardListWrapper mode="best" items={list}>
+      {(item) => <BestItem data={item} />}
+    </BoardListWrapper>
   );
 }

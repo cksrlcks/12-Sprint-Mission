@@ -22,10 +22,8 @@ export default function BestList() {
   }
 
   return (
-    <>
-      <ProductListWrapper mode="best" items={list}>
-        {(item) => <ProductItem item={item} />}
-      </ProductListWrapper>
-    </>
+    <ProductListWrapper mode="best" items={list}>
+      {(item) => <ProductItem item={item} />}
+    </ProductListWrapper>
   );
 }
