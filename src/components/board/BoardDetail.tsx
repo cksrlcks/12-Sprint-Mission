@@ -18,7 +18,16 @@ export default function BoardDetail({ id: articleId }: BaseDetailPage) {
   const { session } = useAuth();
   const { data: detail, isPending } = useGetArticle(articleId);
   const { mutate: toggleLike } = useArticleToggleLike(articleId);
-  const { mutateAsync: deleteArticle } = useArticleDelete(articleId);
+  const { mutate: deleteArticle } = useArticleDelete(articleId, {
+    onSuccess: () => {
+      alert("게시글을 삭제했습니다.");
+      router.replace("/boards");
+    },
+    onError: (error) => {
+      console.error(error);
+      alert("게시글을 삭제를 실패했어요");
+    },
+  });
 
   async function handleToggleLike() {
     if (!session?.user) {
@@ -41,13 +50,7 @@ export default function BoardDetail({ id: articleId }: BaseDetailPage) {
     }
 
     if (confirm("정말 삭제할까요?")) {
-      try {
-        await deleteArticle();
-        alert("게시글을 삭제했습니다.");
-        router.replace("/boards");
-      } catch (err) {
-        console.error(err);
-      }
+      deleteArticle();
     }
   }
 

@@ -24,3 +24,8 @@ export type BaseData = {
 export type BaseDetailPage = {
   id: number;
 };
+
+export type BaseMutationCallbackOptions = {
+  onSuccess: () => void;
+  onError: (error: unknown) => void;
+};

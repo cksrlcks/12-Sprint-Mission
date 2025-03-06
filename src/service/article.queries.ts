@@ -1,5 +1,5 @@
 import { ListMode } from "@/service/article.type";
-import { ListQueryParams } from "@/types/common";
+import { BaseMutationCallbackOptions, ListQueryParams } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addArticle,
@@ -76,13 +76,20 @@ export function useArticleToggleLike(articeId: number) {
   });
 }
 
-export function useArticleDelete(articeId: number) {
+export function useArticleDelete(
+  articeId: number,
+  options?: Partial<BaseMutationCallbackOptions>
+) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => deleteArticle(articeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+      options?.onSuccess?.();
+    },
+    onError: (error) => {
+      options?.onError?.(error);
     },
   });
 }
