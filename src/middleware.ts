@@ -1,12 +1,14 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(req:NextRequest){
-  const token = (await cookies()).get('accessToken')?.value;
+export async function middleware(req: NextRequest) {
+  const token = (await cookies()).get("accessToken")?.value;
 
   if (!token && req.nextUrl.pathname !== "/login") {
-    return Response.redirect(new URL("/login", req.nextUrl.origin));
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
