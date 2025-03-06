@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 import { signinFormSchmea, SigninFormType } from "@/service/auth.schema";
 import { login, refreshAccessToken } from "@/service/auth.service";
-import { User } from "@/service/auth.type";
 import { Session } from "@/types/auth";
 import { handleError } from "@/util/error";
 
@@ -74,49 +73,19 @@ export async function logoutAction(): Promise<AuthActionResult> {
   };
 }
 
-export async function getAccessToken(): Promise<string | null> {
-  const cookieStore = await cookies();
-  return cookieStore.get("accessToken")?.value || null;
-}
-
 export async function getSession(): Promise<Session | null> {
   const cookieStore = await cookies();
 
   const accessToken = cookieStore.get("accessToken")?.value;
-  const refreshToken = cookieStore.get("refreshToken")?.value;
   const stringifiedUser = cookieStore.get("user")?.value;
-  const user: Partial<User> = stringifiedUser
-    ? JSON.parse(stringifiedUser)
-    : null;
+  const user = stringifiedUser ? JSON.parse(stringifiedUser) : null;
 
-  if (!accessToken && !refreshToken) {
+  if (!accessToken) {
     return null;
   }
 
-  if (!accessToken && refreshToken) {
-    try {
-      const { accessToken } = await refreshAccessToken(refreshToken);
-      cookieStore.set("accessToken", accessToken, {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-      });
-
-      return {
-        accessToken,
-        user,
-      };
-    } catch {
-      cookieStore.delete("accessToken");
-      cookieStore.delete("refreshToken");
-      cookieStore.delete("user");
-
-      return null;
-    }
-  }
-
   return {
-    accessToken: accessToken!, //그냥 return하면 undefined일수도 있다고 타입오류뜸
+    accessToken,
     user,
   };
 }
