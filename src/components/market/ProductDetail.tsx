@@ -12,7 +12,7 @@ import { More } from "@components/Button";
 import { toWon } from "@util/formatter";
 import styles from "./ProductDetail.module.scss";
 import Link from "next/link";
-import { notFound, useParams, useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import {
   useGetProduct,
   useProductDelete,
@@ -20,13 +20,11 @@ import {
 } from "@/service/product.queries";
 import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/context/SessionProvider";
+import { BaseDetailPage } from "@/types/common";
 
-export default function ProductDetail() {
+export default function ProductDetail({ id: productId }: BaseDetailPage) {
   const router = useRouter();
   const { session } = useAuth();
-  const { id } = useParams<{ id: string }>();
-  const productId = Number(id);
-
   const { data: detail, isPending } = useGetProduct(productId);
   const { mutate: toggleLike } = useProductToggleLike(productId);
   const { mutateAsync: deleteProdcut } = useProductDelete(productId);
@@ -43,7 +41,7 @@ export default function ProductDetail() {
       return alert("작성자만 수정이 가능합니다.");
     }
 
-    router.push(`/modifyItem/${id}`);
+    router.push(`/modifyItem/${productId}`);
   }
 
   async function handleDelete() {

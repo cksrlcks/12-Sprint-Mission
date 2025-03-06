@@ -20,3 +20,7 @@ export type BaseData = {
   createdAt: string;
   id: number;
 };
+
+export type BaseDetailPage = {
+  id: number;
+};

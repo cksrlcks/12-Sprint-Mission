@@ -2,12 +2,18 @@ import { PageWrapper } from "@/components/Page";
 import { CommentAdd, CommentList } from "@/components/Comment";
 import ProductDetail from "@/components/market/ProductDetail";
 
-export default function ItemDetailPage() {
+export default async function ItemDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
   return (
     <PageWrapper>
-      <ProductDetail />
+      <ProductDetail id={Number(id)} />
       <CommentAdd name="products" />
-      <CommentList name="products" />
+      <CommentList name="products" id={Number(id)} />
     </PageWrapper>
   );
 }

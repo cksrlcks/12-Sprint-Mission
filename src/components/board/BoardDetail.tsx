@@ -1,6 +1,6 @@
 "use client";
 
-import { notFound, useParams, useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { More } from "@/components/Button";
 import { Author, Fullscreen, LikeButton, Thumbnail } from "@/components/ui";
 import styles from "./BoardDetail.module.scss";
@@ -11,13 +11,11 @@ import {
 } from "@/service/article.queries";
 import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/context/SessionProvider";
+import { BaseDetailPage } from "@/types/common";
 
-export default function BoardDetail() {
+export default function BoardDetail({ id: articleId }: BaseDetailPage) {
   const router = useRouter();
   const { session } = useAuth();
-  const { id } = useParams<{ id: string }>();
-  const articleId = Number(id);
-
   const { data: detail, isPending } = useGetArticle(articleId);
   const { mutate: toggleLike } = useArticleToggleLike(articleId);
   const { mutateAsync: deleteArticle } = useArticleDelete(articleId);
@@ -34,7 +32,7 @@ export default function BoardDetail() {
       return alert("작성자만 수정이 가능합니다.");
     }
 
-    router.push(`/modifyBoard/${id}`);
+    router.push(`/modifyBoard/${articleId}`);
   }
 
   async function handleDelete() {

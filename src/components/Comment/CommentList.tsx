@@ -10,18 +10,17 @@ import {
 } from "@/constants/message";
 import { BackToList } from "../Button";
 import { BoardName } from "@/service/comment.type";
-import { useParams } from "next/navigation";
 import { useGetComments } from "@/service/comment.queries";
 
 interface CommentListType {
+  id: number;
   name: BoardName;
 }
 
-export function CommentList({ name }: CommentListType) {
-  const { id } = useParams();
+export function CommentList({ id, name }: CommentListType) {
   const { isLoading, error, data, hasNextPage, fetchNextPage } = useGetComments(
     name,
-    { id: Number(id), limit: 3 }
+    { id, limit: 3 }
   );
   const comments = data?.pages.flatMap((page) => page.list) || [];
 
