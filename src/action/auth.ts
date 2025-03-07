@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { signinFormSchmea, SigninFormType } from "@/service/auth.schema";
+import { signinFormSchema, SigninFormType } from "@/service/auth.schema";
 import { login, refreshAccessToken } from "@/service/auth.service";
 import { Session } from "@/types/auth";
 import { handleError } from "@/util/error";
@@ -14,7 +14,7 @@ type AuthActionResult = {
 export async function loginAction(
   formData: SigninFormType
 ): Promise<AuthActionResult> {
-  const result = signinFormSchmea.safeParse(formData);
+  const result = signinFormSchema.safeParse(formData);
 
   if (!result.success) {
     return {

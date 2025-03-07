@@ -4,7 +4,7 @@ import { FieldItem, Form, Input } from "@components/Field";
 import { Button } from "@components/ui";
 import useFormWithError from "@hooks/useFormWithError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signinFormSchmea, SigninFormType } from "@/service/auth.schema";
+import { signinFormSchema, SigninFormType } from "@/service/auth.schema";
 import { FieldAdapter } from "@components/adaptor/rhf";
 import { loginAction } from "@/action/auth";
 
@@ -16,7 +16,7 @@ export default function LoginForm() {
     formState: { isSubmitting, isValid },
   } = useFormWithError<SigninFormType>({
     mode: "onBlur",
-    resolver: zodResolver(signinFormSchmea),
+    resolver: zodResolver(signinFormSchema),
     defaultValues: {
       email: "",
       password: "",

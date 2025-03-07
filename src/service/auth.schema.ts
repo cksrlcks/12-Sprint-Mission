@@ -22,9 +22,9 @@ export const signupFormSchema = z
     message: MESSAGE.PASSWORD_MISMATCH,
   });
 
-export type SigninFormType = z.infer<typeof signinFormSchmea>;
+export type SigninFormType = z.infer<typeof signinFormSchema>;
 
-export const signinFormSchmea = z.object({
+export const signinFormSchema = z.object({
   email: z
     .string()
     .nonempty({ message: MESSAGE.EMAIL_REQUIRED })
