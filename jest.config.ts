@@ -4,7 +4,6 @@
  */
 
 import type { Config } from "jest";
-
 import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
@@ -201,6 +200,10 @@ const config: Config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 };
 
 export default createJestConfig(config);
